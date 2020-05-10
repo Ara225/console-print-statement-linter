@@ -1,10 +1,11 @@
 {
 	"name": "console-log-linter-client",
+	"displayName": "Console Log Linter and Remover Client",
 	"description": "VSCode part of console log linter ",
 	"author": "Anna Aitchison",
 	"license": "MIT",
 	"version": "1.2.0",
-	"publisher": "vscode",
+	"publisher": "ara225",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Ara225/console-log-linter"

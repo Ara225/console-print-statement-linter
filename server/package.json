@@ -1,6 +1,7 @@
 {
 	"name": "console-log-linter-server",
-	"description": "Example implementation ofconsole log linter  in node.",
+	"displayName": "Console Log Linter and Remover Server",
+	"description": "Console log linter server in node.",
 	"version": "1.2.0",
 	"author": "Anna Aitchison",
 	"license": "MIT",

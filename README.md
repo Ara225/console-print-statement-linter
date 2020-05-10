@@ -20,17 +20,3 @@ However, the regex for the commands isn't. Has full tests as well which might be
 * Remove all console.debug statements
 * Remove all console.warn statements
 * Remove all console.* statements
-
-## Structure
-
-```
-.
-├── client // Language Client
-│   ├── src
-│   │   ├── test // End to End tests for Language Client / Server
-│   │   └── extension.ts // Language Client entry point
-├── package.json // The extension manifest.
-└── server // Language Server
-    └── src
-        └── server.ts // Language Server entry point
-```
