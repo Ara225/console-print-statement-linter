@@ -19,7 +19,9 @@
 	"activationEvents": [
 		"onLanguage:javascript",
 		"onLanguage:typescript",
-		"onLanguage:html"
+		"onLanguage:html",
+		"onLanguage:javascriptreact",
+		"onLanguage:typescriptreact"
 	],
 	"main": "./client/out/extension",
 	"contributes": {
@@ -84,10 +86,10 @@
 	},
 	"devDependencies": {
 		"@types/mocha": "^5.2.7",
-		"mocha": "^6.2.2",
-		"@types/node": "^12.12.0",
+		"@types/node": "^12.12.38",
+		"@typescript-eslint/parser": "^2.31.0",
 		"eslint": "^6.4.0",
-		"@typescript-eslint/parser": "^2.3.0",
+		"mocha": "^6.2.2",
 		"typescript": "^3.8.3"
 	}
 }

@@ -8,9 +8,8 @@ import vscode = require('vscode');
  *   A regular expression
  * @returns {Array}
  *   Array containing a list of ranges of the matching lines (item 0) and the text of them (item 1)
- * @todo Optionally offer plain string matching
  */
-function getMatchingLines(editor, searchTerm) {
+function getMatchingLines(editor: vscode.TextEditor, searchTerm: string) {
 	var currentLine: { text: any; rangeIncludingLineBreak: any; };
 	var listOfRanges = [];
 	var lineContent: string;
@@ -41,11 +40,16 @@ function getMatchingLines(editor, searchTerm) {
 	return null;
 }
 
-export function commandsImplementation(stringToDelete:string) {
+/**
+ * This is the implementation of the commands for removing console statements
+ * @param regexStringToDelete A regex matching the string we want to delete 
+ */
+export function commandsImplementation(regexStringToDelete:string) {
 	var editor = vscode.window.activeTextEditor;
 	try {
-		var lines = getMatchingLines(editor, stringToDelete);    
+		var lines = getMatchingLines(editor, regexStringToDelete);    
 		if (lines !== null) {
+			// Delete lines
 			editor.edit(function (builder) {
 				for (let index = 0; index < lines.length; index++) {
 					builder.delete(lines[index]);
