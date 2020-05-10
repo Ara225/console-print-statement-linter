@@ -9,7 +9,7 @@ import vscode = require('vscode');
  * @returns {Array}
  *   Array containing a list of ranges of the matching lines (item 0) and the text of them (item 1)
  */
-function getMatchingLines(editor: vscode.TextEditor, searchTerm: string) {
+function getMatchingLines(editor: vscode.TextEditor, searchTerm: string): Array<any> {
 	var currentLine: { text: any; rangeIncludingLineBreak: any; };
 	var listOfRanges = [];
 	var lineContent: string;

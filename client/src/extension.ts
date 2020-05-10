@@ -13,7 +13,7 @@ import {
 let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
-	
+	// Add commands to remove console statements
 	let removeConsoleLog = commands.registerTextEditorCommand('extension.removeConsoleLog', function () {
 		utils.commandsImplementation('console\\.log');
 	});
@@ -63,8 +63,14 @@ export function activate(context: ExtensionContext) {
 
 	// Options to control the language client
 	let clientOptions: LanguageClientOptions = {
-		// Register the server for plain text documents
-		documentSelector: [{ scheme: 'file', language: 'javascript' },{ scheme: 'file', language: 'typescript' },{ scheme: 'file', language: 'html' }],
+		// Register the server for JS, TS, React, and HTML documents
+		documentSelector: [
+			{ scheme: 'file', language: 'javascript' },
+			{ scheme: 'file', language: 'typescript' },
+			{ scheme: 'file', language: 'javascriptreact' },
+			{ scheme: 'file', language: 'typescriptreact' },
+			{ scheme: 'file', language: 'html' }
+		],
 		synchronize: {
 			// Notify the server about file changes to '.clientrc files contained in the workspace
 			fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
