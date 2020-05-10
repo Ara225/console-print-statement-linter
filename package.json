@@ -9,6 +9,11 @@
 		"type": "git",
 		"url": "https://github.com/Ara225/console-log-linter"
 	},
+    "icon": "images/icon.png",
+	"galleryBanner": {
+		"color": "#F0F8FF",
+		"theme": "dark"
+	},
 	"publisher": "ara225",
 	"categories": [
 		"Other"
