@@ -1,13 +1,13 @@
 {
-	"name": "lsp-sample-client",
-	"description": "VSCode part of a language server",
-	"author": "Microsoft Corporation",
+	"name": "console-log-linter-client",
+	"description": "VSCode part of console log linter ",
+	"author": "Anna Aitchison",
 	"license": "MIT",
 	"version": "1.2.0",
 	"publisher": "vscode",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Microsoft/vscode-extension-samples"
+		"url": "https://github.com/Ara225/console-log-linter"
 	},
 	"engines": {
 		"vscode": "^1.43.0"

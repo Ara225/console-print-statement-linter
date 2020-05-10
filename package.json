@@ -1,17 +1,19 @@
 {
 	"name": "lsp-sample",
-	"description": "A language server example",
-	"author": "Microsoft Corporation",
+	"description": "A slick extension that flags console.* statements with information messages (blue squiggly line) and makes removing them easy",
+	"author": "Anna Aitchison",
 	"license": "MIT",
 	"version": "1.2.0",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Microsoft/vscode-extension-samples"
+		"url": "https://github.com/Ara225/console-log-linter"
 	},
 	"publisher": "vscode-samples",
-	"categories": [],
+	"categories": [
+		"Other"
+	],
 	"keywords": [
-		"multi-root ready"
+		"console.log remover"
 	],
 	"engines": {
 		"vscode": "^1.43.0"
@@ -21,7 +23,12 @@
 		"onLanguage:typescript",
 		"onLanguage:html",
 		"onLanguage:javascriptreact",
-		"onLanguage:typescriptreact"
+		"onLanguage:typescriptreact",
+		"onCommand:extension.removeConsoleLog",
+		"onCommand:extension.removeConsoleError",
+		"onCommand:extension.removeConsoleDebug",
+		"onCommand:extension.removeConsoleWarn",
+        "onCommand:extension.removeAllConsoleStatements"
 	],
 	"main": "./client/out/extension",
 	"contributes": {
@@ -29,19 +36,19 @@
 			"type": "object",
 			"title": "Example configuration",
 			"properties": {
-				"languageServerExample.maxNumberOfProblems": {
+				"consoleLogLinter.maxNumberOfProblems": {
 					"scope": "resource",
 					"type": "number",
 					"default": 100,
 					"description": "Controls the maximum number of problems produced by the server."
 				},
-				"languageServerExample.regexToMatch": {
+				"consoleLogLinter.regexToMatch": {
 					"scope": "resource",
 					"type": "string",
 					"default": "\\bconsole\\.(log|warn|error|debug)\\b",
 					"description": "The regex to match. Completely configurable - as long as it's a valid JS regex, it'll work"
 				},
-				"languageServerExample.trace.server": {
+				"consoleLogLinter.trace.server": {
 					"scope": "window",
 					"type": "string",
 					"enum": [

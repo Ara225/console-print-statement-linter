@@ -11,7 +11,15 @@ Based on the Microsoft language server example in the https://github.com/Microso
 This is a bit overkill but it prevents VSCode from locking up when you open very large files.
 
 The regex used to match the console statements to flag them is configurable, so you could adopt it to only match some.
-However, the regex for the commands isn't. 
+However, the regex for the commands isn't. Has full tests as well which might be interesting to some
+
+## Commands 
+
+* Remove all console.log statements
+* Remove all console.error statements
+* Remove all console.debug statements
+* Remove all console.warn statements
+* Remove all console.* statements
 
 ## Structure
 
