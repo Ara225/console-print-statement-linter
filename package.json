@@ -1,0 +1,93 @@
+{
+	"name": "lsp-sample",
+	"description": "A language server example",
+	"author": "Microsoft Corporation",
+	"license": "MIT",
+	"version": "1.2.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Microsoft/vscode-extension-samples"
+	},
+	"publisher": "vscode-samples",
+	"categories": [],
+	"keywords": [
+		"multi-root ready"
+	],
+	"engines": {
+		"vscode": "^1.43.0"
+	},
+	"activationEvents": [
+		"onLanguage:javascript",
+		"onLanguage:typescript",
+		"onLanguage:html"
+	],
+	"main": "./client/out/extension",
+	"contributes": {
+		"configuration": {
+			"type": "object",
+			"title": "Example configuration",
+			"properties": {
+				"languageServerExample.maxNumberOfProblems": {
+					"scope": "resource",
+					"type": "number",
+					"default": 100,
+					"description": "Controls the maximum number of problems produced by the server."
+				},
+				"languageServerExample.regexToMatch": {
+					"scope": "resource",
+					"type": "string",
+					"default": "\\bconsole\\.(log|warn|error|debug)\\b",
+					"description": "The regex to match. Completely configurable - as long as it's a valid JS regex, it'll work"
+				},
+				"languageServerExample.trace.server": {
+					"scope": "window",
+					"type": "string",
+					"enum": [
+						"off",
+						"messages",
+						"verbose"
+					],
+					"default": "off",
+					"description": "Traces the communication between VS Code and the language server."
+				}
+			}
+		},
+		"commands": [
+			{
+				"command": "extension.removeConsoleLog",
+				"title": "Remove all console.log statements"
+			},
+			{
+				"command": "extension.removeConsoleError",
+				"title": "Remove all console.error statements"
+			},
+			{
+				"command": "extension.removeConsoleDebug",
+				"title": "Remove all console.debug statements"
+			},
+			{
+				"command": "extension.removeConsoleWarn",
+				"title": "Remove all console.warn statements"
+			},
+			{
+				"command": "extension.removeAllConsoleStatements",
+				"title": "Remove all console.* statements"
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -b",
+		"watch": "tsc -b -w",
+		"postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
+		"test": "sh ./scripts/e2e.sh"
+	},
+	"devDependencies": {
+		"@types/mocha": "^5.2.7",
+		"mocha": "^6.2.2",
+		"@types/node": "^12.12.0",
+		"eslint": "^6.4.0",
+		"@typescript-eslint/parser": "^2.3.0",
+		"typescript": "^3.8.3"
+	}
+}
