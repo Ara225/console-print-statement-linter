@@ -9,28 +9,28 @@ suite('Should get diagnostics', () => {
 
 	test('Check that information message is thrown for all of the four console.* statements', async () => {
 		await testDiagnostics(docUri, [
-			{ message: 'console.log statement found.', range: toRange(0, 0, 0, 11), severity: vscode.DiagnosticSeverity.Information, source: 'ex' },
-			{ message: 'console.warn statement found.', range: toRange(1, 0, 1, 12), severity: vscode.DiagnosticSeverity.Information, source: 'ex' },
-			{ message: 'console.error statement found.', range: toRange(2, 0, 2, 13), severity: vscode.DiagnosticSeverity.Information, source: 'ex' },
-			{ message: 'console.debug statement found.', range: toRange(3, 0, 3, 13), severity: vscode.DiagnosticSeverity.Information, source: 'ex' }
+			{ message: 'console.log statement found.', range: toRange(0, 0, 0, 11), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' },
+			{ message: 'console.warn statement found.', range: toRange(1, 0, 1, 12), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' },
+			{ message: 'console.error statement found.', range: toRange(2, 0, 2, 13), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' },
+			{ message: 'console.debug statement found.', range: toRange(3, 0, 3, 13), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
 		], null);
 	});
 	test('Check delete console.debug statements command works', async () => {
 		await testDiagnostics(docUri, [
-			{ message: 'console.log statement found.', range: toRange(0, 0, 0, 11), severity: vscode.DiagnosticSeverity.Information, source: 'ex' },
-			{ message: 'console.warn statement found.', range: toRange(1, 0, 1, 12), severity: vscode.DiagnosticSeverity.Information, source: 'ex' },
-			{ message: 'console.error statement found.', range: toRange(2, 0, 2, 13), severity: vscode.DiagnosticSeverity.Information, source: 'ex' }
+			{ message: 'console.log statement found.', range: toRange(0, 0, 0, 11), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' },
+			{ message: 'console.warn statement found.', range: toRange(1, 0, 1, 12), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' },
+			{ message: 'console.error statement found.', range: toRange(2, 0, 2, 13), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
 		], 'extension.removeConsoleDebug');
 	});
 	test('Check delete console.error statements command works', async () => {
 		await testDiagnostics(docUri, [
-			{ message: 'console.log statement found.', range: toRange(0, 0, 0, 11), severity: vscode.DiagnosticSeverity.Information, source: 'ex' },
-			{ message: 'console.warn statement found.', range: toRange(1, 0, 1, 12), severity: vscode.DiagnosticSeverity.Information, source: 'ex' }
+			{ message: 'console.log statement found.', range: toRange(0, 0, 0, 11), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' },
+			{ message: 'console.warn statement found.', range: toRange(1, 0, 1, 12), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
 		], 'extension.removeConsoleError');
 	});
 	test('Check delete console.warn statements command works', async () => {
 		await testDiagnostics(docUri, [
-			{ message: 'console.log statement found.', range: toRange(0, 0, 0, 11), severity: vscode.DiagnosticSeverity.Information, source: 'ex' }
+			{ message: 'console.log statement found.', range: toRange(0, 0, 0, 11), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
 		], 'extension.removeConsoleWarn');
 	});
 	test('Check delete console.log statements command works', async () => {
@@ -67,8 +67,11 @@ async function testDiagnostics(docUri: vscode.Uri, expectedDiagnostics: vscode.D
 			assert.equal(actualDiagnostic.message, expectedDiagnostic.message);
 			console.log('Matching range between actual & expected diagnostics');
 			assert.deepEqual(actualDiagnostic.range, expectedDiagnostic.range);
+			// There is a setting to change severity, but that shouldn't be set in a test environment
 			console.log('Matching severity between actual & expected diagnostics');
 			assert.equal(actualDiagnostic.severity, expectedDiagnostic.severity);
+			console.log('Matching source between actual & expected diagnostics');
+			assert.equal(actualDiagnostic.source, expectedDiagnostic.source);
 		});
 	}, timeout);
 }

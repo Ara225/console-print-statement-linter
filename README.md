@@ -1,8 +1,7 @@
 # Console Log Linter
 
-A slick extension that flags console.log, console.debug, console.error and console.warn statements with information
-messages (blue squiggly line). It also provides commands to easily remove either all console statements or all 
-of each type.
+A slick extension that flags console.log, console.debug, console.error and console.warn statements. It also provides commands 
+to easily remove either all console statements or all of each type.
 
 ## Details
 
@@ -11,7 +10,8 @@ Based on the Microsoft language server example in the https://github.com/Microso
 This is a bit overkill but it prevents VSCode from locking up when you open very large files.
 
 The regex used to match the console statements to flag them is configurable, so you could adopt it to only match some.
-However, the regex for the commands isn't. Has full tests as well which might be interesting to some
+However, the regex for the commands isn't. Additionally, you can the configure what error level the messages it throws 
+are at.
 
 ## Commands 
 
