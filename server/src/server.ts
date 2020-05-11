@@ -65,34 +65,33 @@ connection.onInitialized(() => {
 		// Register for all configuration changes.
 		connection.client.register(DidChangeConfigurationNotification.type, undefined);
 	}
-	if (hasWorkspaceFolderCapability) {
-		connection.workspace.onDidChangeWorkspaceFolders(_event => {
-			connection.console.log('Workspace folder change event received.');
-		});
-	}
 });
 
 // The example settings
-interface ExampleSettings {
+interface ExtensionSettings {
 	maxNumberOfProblems: number;
 	regexToMatch: string;
+	problemSeverity: string;
 }
-
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
-const defaultSettings: ExampleSettings = { maxNumberOfProblems: 1000, regexToMatch: '\bconsole\\.(log|warn|error|debug)\b' };
-let globalSettings: ExampleSettings = defaultSettings;
+const defaultSettings: ExtensionSettings = { 
+	maxNumberOfProblems: 1000, 
+	regexToMatch: '\bconsole\\.(log|warn|error|debug)\b', 
+	problemSeverity: 'Information' 
+};
+let globalSettings: ExtensionSettings = defaultSettings;
 
 // Cache the settings of all open documents
-let documentSettings: Map<string, Thenable<ExampleSettings>> = new Map();
+let documentSettings: Map<string, Thenable<ExtensionSettings>> = new Map();
 
 connection.onDidChangeConfiguration(change => {
 	if (hasConfigurationCapability) {
 		// Reset all cached document settings
 		documentSettings.clear();
 	} else {
-		globalSettings = <ExampleSettings>(
+		globalSettings = <ExtensionSettings>(
 			(change.settings.consoleLogLinter || defaultSettings)
 		);
 	}
@@ -101,7 +100,7 @@ connection.onDidChangeConfiguration(change => {
 	documents.all().forEach(validateTextDocument);
 });
 
-function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
+function getDocumentSettings(resource: string): Thenable<ExtensionSettings> {
 	if (!hasConfigurationCapability) {
 		return Promise.resolve(globalSettings);
 	}
@@ -128,37 +127,44 @@ documents.onDidChangeContent(change => {
 });
 
 async function validateTextDocument(textDocument: TextDocument): Promise<void> {
-	// In this simple example we get the settings for every validate run.
 	let settings = await getDocumentSettings(textDocument.uri);
-
+	// Somewhat lazy way of setting the DiagnosticSeverity based on the settings, can't come up with anything better
+	let problemSeverity:DiagnosticSeverity;
+	if (settings.problemSeverity === 'Hint') {
+		problemSeverity = DiagnosticSeverity.Hint;
+	}
+	else if (settings.problemSeverity === 'Information') {
+		problemSeverity = DiagnosticSeverity.Information;
+	}
+	else if (settings.problemSeverity === 'Warning') {
+		problemSeverity = DiagnosticSeverity.Warning;
+	}
+	else {
+		problemSeverity = DiagnosticSeverity.Error;
+	}
 	let text = textDocument.getText();
 	let pattern = new RegExp(settings.regexToMatch, 'g');
-	let m: RegExpExecArray | null;
-
+	let searchResults: RegExpExecArray | null;
 	let problems = 0;
 	let diagnostics: Diagnostic[] = [];
-	while ((m = pattern.exec(text)) && problems < settings.maxNumberOfProblems) {
+	// While there are strings matching the Regex in the document and the number of them is less than settings.maxNumberOfProblems
+	while ((searchResults = pattern.exec(text)) && problems < settings.maxNumberOfProblems) {
 		problems++;
 		let diagnostic: Diagnostic = {
-			severity: DiagnosticSeverity.Information,
+			severity: problemSeverity,
 			range: {
-				start: textDocument.positionAt(m.index),
-				end: textDocument.positionAt(m.index + m[0].length)
+				start: textDocument.positionAt(searchResults.index),
+				end: textDocument.positionAt(searchResults.index + searchResults[0].length)
 			},
-			message: `${m[0]} statement found.`,
-			source: 'ex'
+			message: `${searchResults[0]} statement found.`,
+			source: 'Console Log Linter'
 		};
 		diagnostics.push(diagnostic);
 	}
-
+	
 	// Send the computed diagnostics to VSCode.
 	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
 }
-
-connection.onDidChangeWatchedFiles(_change => {
-	// Monitored files have change in VSCode
-	connection.console.log('We received an file change event');
-});
 
 // Make the text document manager listen on the connection
 // for open, change and close text document events

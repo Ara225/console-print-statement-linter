@@ -1,10 +1,10 @@
 {
 	"name": "console-log-linter",
 	"displayName": "Console Log Linter and Remover",
-	"description": "A slick extension that flags console.* statements with information messages (blue squiggly line) and makes removing them easy",
+	"description": "A slick extension that flags console.* statements and makes removing them easy",
 	"author": "Anna Aitchison",
 	"license": "MIT",
-	"version": "1.2.1",
+	"version": "1.3.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Ara225/console-log-linter"
@@ -64,6 +64,18 @@
 					],
 					"default": "off",
 					"description": "Traces the communication between VS Code and the language server."
+				},
+				"consoleLogLinter.problemSeverity": {
+					"scope": "resource",
+					"type": "string",
+					"enum": [
+						"Error",
+						"Warning",
+						"Information",
+						"Hint"						
+					],
+					"default": "Information",
+					"description": "Set severity of the problems displayed"
 				}
 			}
 		},
