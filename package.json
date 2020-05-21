@@ -9,7 +9,7 @@
 		"type": "git",
 		"url": "https://github.com/Ara225/console-log-linter"
 	},
-    "icon": "images/icon.png",
+	"icon": "images/icon.png",
 	"galleryBanner": {
 		"color": "#FFFFFF",
 		"theme": "light"
@@ -30,11 +30,16 @@
 		"onLanguage:html",
 		"onLanguage:javascriptreact",
 		"onLanguage:typescriptreact",
+		"onLanguage:c",
+		"onLanguage:cpp",
+		"onLanguage:java",
+		"onLanguage:csharp",
+		"onLanguage:python",
 		"onCommand:extension.removeConsoleLog",
 		"onCommand:extension.removeConsoleError",
 		"onCommand:extension.removeConsoleDebug",
 		"onCommand:extension.removeConsoleWarn",
-        "onCommand:extension.removeAllConsoleStatements"
+		"onCommand:extension.removeAllConsoleStatements"
 	],
 	"main": "./client/out/extension",
 	"contributes": {
@@ -48,11 +53,11 @@
 					"default": 100,
 					"description": "Controls the maximum number of problems produced by the server."
 				},
-				"consoleLogLinter.regexToMatch": {
+				"consoleLogLinter.regexToMatchJS": {
 					"scope": "resource",
 					"type": "string",
 					"default": "\\bconsole\\.(log|warn|error|debug)\\b",
-					"description": "The regex to match. Completely configurable - as long as it's a valid JS regex, it'll work"
+					"description": "The regex to match for JS/TS/React files. Completely configurable"
 				},
 				"consoleLogLinter.trace.server": {
 					"scope": "window",
@@ -72,10 +77,64 @@
 						"Error",
 						"Warning",
 						"Information",
-						"Hint"						
+						"Hint"
 					],
 					"default": "Information",
 					"description": "Set severity of the problems displayed"
+				},
+				"consoleLogLinter.JavaScriptMatchingEnabled": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": "true",
+					"description": "Turn Javascript/Typescript pattern matching on or off"
+				},
+				"consoleLogLinter.regexToMatchCAndCPP": {
+					"scope": "resource",
+					"type": "string",
+					"default": "(cout|Console::Write)",
+					"description": "The regex to match for C/C++ files. Completely configurable"
+				},
+				"consoleLogLinter.CAndCppMatchingEnabled": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": "true",
+					"description": "Turn C and C++ pattern matching on or off"
+				},
+				"consoleLogLinter.regexToMatchPython": {
+					"scope": "resource",
+					"type": "string",
+					"default": "print",
+					"description": "The regex to match for Python files. Completely configurable"
+				},
+				"consoleLogLinter.pythonMatchingEnabled": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": "true",
+					"description": "Turn Python pattern matching on or off"
+				},
+				"consoleLogLinter.regexToMatchCsharp": {
+					"scope": "resource",
+					"type": "string",
+					"default": "Console\\.Write",
+					"description": "The regex to match for C# files. Completely configurable"
+				},
+				"consoleLogLinter.csharpMatchingEnabled": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": "true",
+					"description": "Turn C# pattern matching on or off"
+				},
+				"consoleLogLinter.regexToMatchJava": {
+					"scope": "resource",
+					"type": "string",
+					"default": "System\\.out\\.print",
+					"description": "The regex to match for Java files. Completely configurable"
+				},
+				"consoleLogLinter.javaMatchingEnabled": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": "true",
+					"description": "Turn Java pattern matching on or off"
 				}
 			}
 		},
