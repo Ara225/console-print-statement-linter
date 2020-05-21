@@ -37,6 +37,51 @@ suite('Should get diagnostics', () => {
 		await testDiagnostics(docUri, [
 		], 'extension.removeConsoleLog');
 	});
+	test('Check C pattern matching', async () => {
+		await testDiagnostics(getDocUri('diagnostics.c'), [
+			{ message: 'printf statement found.', range: toRange(0, 0, 0, 7), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
+		], null);
+	});
+	test('Check delete printf statements command works', async () => {
+		await testDiagnostics(getDocUri('diagnostics.c'), [
+		], 'extension.removeAllPrintfStatements');
+	});
+	test('Check C++ pattern matching', async () => {
+		await testDiagnostics(getDocUri('diagnostics.cpp'), [
+			{ message: 'Console::Write statement found.', range: toRange(0, 0, 0, 14), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
+		], null);
+	});
+	test('Check delete Console::Write statements command works', async () => {
+		await testDiagnostics(getDocUri('diagnostics.cpp'), [
+		], 'extension.removeAllCoutStatements');
+	});
+	test('Check C# pattern matching', async () => {
+		await testDiagnostics(getDocUri('diagnostics.cs'), [
+			{ message: 'Console.Write statement found.', range: toRange(0, 0, 0, 14), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
+		], null);
+	});
+	test('Check delete Console.Write statements command works', async () => {
+		await testDiagnostics(getDocUri('diagnostics.cs'), [
+		], 'extension.removeAllConsoleWriteStatements');
+	});
+	test('Check Java pattern matching', async () => {
+		await testDiagnostics(getDocUri('diagnostics.java'), [
+			{ message: 'System.out.print statement found.', range: toRange(0, 0, 0, 17      ), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
+		], null);
+	});
+	test('Check delete System.out.print statements command works', async () => {
+		await testDiagnostics(getDocUri('diagnostics.java'), [
+		], 'extension.removeAllSystemOutPrintStatements');
+	});
+	test('Check Python pattern matching', async () => {
+		await testDiagnostics(getDocUri('diagnostics.py'), [
+			{ message: 'print statement found.', range: toRange(0, 0, 0, 6), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
+		], null);
+	});
+	test('Check delete print statements command works', async () => {
+		await testDiagnostics(getDocUri('diagnostics.py'), [
+		], 'extension.removeAllPrintStatements');
+	});
 });
 
 function toRange(sLine: number, sChar: number, eLine: number, eChar: number) {

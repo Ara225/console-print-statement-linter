@@ -71,9 +71,9 @@ connection.onInitialized(() => {
 interface ExtensionSettings {
 	maxNumberOfProblems: number;
 	regexToMatchJS: string;
-	regexToMatchCAndCPP: string;
+	regexToMatchCpp: string;
 	JavaScriptMatchingEnabled: boolean;
-	CAndCppMatchingEnabled: boolean;
+	CppMatchingEnabled: boolean;
 	problemSeverity: string;
 	regexToMatchPython: string;
 	pythonMatchingEnabled: boolean;
@@ -81,6 +81,8 @@ interface ExtensionSettings {
 	csharpMatchingEnabled: boolean;
 	javaMatchingEnabled: boolean;
 	regexToMatchJava: string;
+	regexToMatchC: string;
+	CMatchingEnabled: boolean;
 }
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
@@ -88,10 +90,12 @@ interface ExtensionSettings {
 const defaultSettings: ExtensionSettings = { 
 	maxNumberOfProblems: 1000, 
 	regexToMatchJS: '\bconsole\\.(log|warn|error|debug)\b', 
-	regexToMatchCAndCPP: "(cout|Console::Write)",
+	regexToMatchCpp: "(cout|Console::Write)",
 	problemSeverity: 'Information',
 	JavaScriptMatchingEnabled: true,
-	CAndCppMatchingEnabled: true,
+	CppMatchingEnabled: true,
+	regexToMatchC: "printf\\(",
+	CMatchingEnabled: true,
 	regexToMatchPython: "print\\(",
 	pythonMatchingEnabled: true,
 	regexToMatchCsharp: "(Console\\.Write\\(|Console\\.WriteLine\\()",
@@ -99,6 +103,7 @@ const defaultSettings: ExtensionSettings = {
 	javaMatchingEnabled: true,
 	regexToMatchJava: "(System\\.out\\.print\\(|System\\.out\\.println\\()"
 };
+
 let globalSettings: ExtensionSettings = defaultSettings;
 
 // Cache the settings of all open documents
@@ -176,8 +181,11 @@ function setPattern(textDocument: TextDocument, settings: ExtensionSettings) {
 	if (['html', 'javascript', 'javascriptreact', 'typescriptreact', 'typescript'].indexOf(textDocument.languageId) >= 0 && settings.JavaScriptMatchingEnabled) {
 		pattern = new RegExp(settings.regexToMatchJS, 'g');
 	}
-	else if (['c', 'cpp'].indexOf(textDocument.languageId) >= 0 && settings.CAndCppMatchingEnabled) {
-		pattern = new RegExp(settings.regexToMatchCAndCPP, 'g');
+	else if ('cpp' == textDocument.languageId && settings.CppMatchingEnabled) {
+		pattern = new RegExp(settings.regexToMatchCpp, 'g');
+	}
+	else if ('c' == textDocument.languageId && settings.CMatchingEnabled) {
+		pattern = new RegExp(settings.regexToMatchC, 'g');
 	}
 	else if ("python" == textDocument.languageId && settings.pythonMatchingEnabled) {
 		pattern = new RegExp(settings.regexToMatchPython, 'g');
@@ -211,7 +219,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 				start: textDocument.positionAt(searchResults.index),
 				end: textDocument.positionAt(searchResults.index + searchResults[0].length)
 			},
-			message: `${searchResults[0]} statement found.`,
+			message: `${searchResults[0].replace('(','')} statement found.`,
 			source: 'Console Log Linter'
 		};
 		diagnostics.push(diagnostic);

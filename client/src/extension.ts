@@ -48,6 +48,9 @@ export function activate(context: ExtensionContext) {
 	let removeAllSystemOutPrintStatements = commands.registerTextEditorCommand('extension.removeAllSystemOutPrintStatements', function () {
 		utils.commandsImplementation("(System\\.out\\.print\\(|System\\.out\\.println\\()");
 	});
+	let removeAllPrintfStatements = commands.registerTextEditorCommand('extension.removeAllPrintfStatements', function () {
+		utils.commandsImplementation("printf\\(");
+	});
 
 	context.subscriptions.push(removeConsoleLog);
 	context.subscriptions.push(removeConsoleError);
@@ -58,6 +61,7 @@ export function activate(context: ExtensionContext) {
 	context.subscriptions.push(removeAllPrintStatements);
 	context.subscriptions.push(removeAllConsoleWriteStatements);
 	context.subscriptions.push(removeAllSystemOutPrintStatements);
+	context.subscriptions.push(removeAllPrintfStatements);
 
 	// The server is implemented in node
 	let serverModule = context.asAbsolutePath(

@@ -39,7 +39,12 @@
 		"onCommand:extension.removeConsoleError",
 		"onCommand:extension.removeConsoleDebug",
 		"onCommand:extension.removeConsoleWarn",
-		"onCommand:extension.removeAllConsoleStatements"
+		"onCommand:extension.removeAllConsoleStatements",
+		"onCommand:extension.removeAllCoutStatements",
+		"onCommand:extension.removeAllPrintStatements",
+		"onCommand:extension.removeAllConsoleWriteStatements",
+		"onCommand:extension.removeAllSystemOutPrintStatements",
+		"onCommand:extension.removeAllPrintfStatements"
 	],
 	"main": "./client/out/extension",
 	"contributes": {
@@ -88,17 +93,29 @@
 					"default": true,
 					"description": "Turn Javascript/Typescript pattern matching on or off"
 				},
-				"consoleLogLinter.regexToMatchCAndCPP": {
+				"consoleLogLinter.regexToMatchCpp": {
 					"scope": "resource",
 					"type": "string",
 					"default": "(cout|Console::Write)",
-					"description": "The regex to match for C/C++ files. Completely configurable"
+					"description": "The regex to match for C++ files. Completely configurable"
 				},
-				"consoleLogLinter.CAndCppMatchingEnabled": {
+				"consoleLogLinter.CppMatchingEnabled": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Turn C and C++ pattern matching on or off"
+					"description": "Turn C++ pattern matching on or off"
+				},
+				"consoleLogLinter.regexToMatchC": {
+					"scope": "resource",
+					"type": "string",
+					"default": "printf\\(",
+					"description": "The regex to match for C files. Completely configurable"
+				},
+				"consoleLogLinter.CMatchingEnabled": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Turn C pattern matching on or off"
 				},
 				"consoleLogLinter.regexToMatchPython": {
 					"scope": "resource",
@@ -127,7 +144,7 @@
 				"consoleLogLinter.regexToMatchJava": {
 					"scope": "resource",
 					"type": "string",
-					"default": "(System\\.out\\.print\\(|System\\.out\\.println\\()",
+					"default": "System\\.out\\.print\\(",
 					"description": "The regex to match for Java files. Completely configurable"
 				},
 				"consoleLogLinter.javaMatchingEnabled": {
@@ -164,6 +181,10 @@
 				"title": "Remove cout and Console::Write statements"
 			},
 			{
+				"command": "extension.removeAllPrintfStatements",
+				"title": "Remove printf statements"
+			},
+			{
 				"command": "extension.removeAllPrintStatements",
 				"title": "Remove print() statements"
 			},
@@ -172,7 +193,7 @@
 				"title": "Remove all Console.Write/Console.WriteLine statements"
 			},
 			{
-				"command": "removeAllSystemOutPrintStatements",
+				"command": "extension.removeAllSystemOutPrintStatements",
 				"title": "Remove all System.out.print or System.out.println statements"
 			}
 
