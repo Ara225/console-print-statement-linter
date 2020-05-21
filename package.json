@@ -1,15 +1,15 @@
 {
 	"name": "console-log-linter",
-	"displayName": "Console Log Linter and Remover",
-	"description": "A slick extension that flags console.* statements and makes removing them easy",
+	"displayName": "Console and Print Statement Linter",
+	"description": "A slick extension that flags console.* statements in JS/TS and their equivalent statements in other languages.",
 	"author": "Anna Aitchison",
 	"license": "MIT",
-	"version": "1.3.0",
+	"version": "2.0.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Ara225/console-print-statement-linter"
 	},
-    "icon": "images/icon.png",
+	"icon": "images/icon.png",
 	"galleryBanner": {
 		"color": "#FFFFFF",
 		"theme": "light"
@@ -19,7 +19,8 @@
 		"Other"
 	],
 	"keywords": [
-		"console.log remover"
+		"console.log remover",
+		"print statement remover"
 	],
 	"engines": {
 		"vscode": "^1.43.0"
@@ -30,31 +31,41 @@
 		"onLanguage:html",
 		"onLanguage:javascriptreact",
 		"onLanguage:typescriptreact",
+		"onLanguage:c",
+		"onLanguage:cpp",
+		"onLanguage:java",
+		"onLanguage:csharp",
+		"onLanguage:python",
 		"onCommand:extension.removeConsoleLog",
 		"onCommand:extension.removeConsoleError",
 		"onCommand:extension.removeConsoleDebug",
 		"onCommand:extension.removeConsoleWarn",
-        "onCommand:extension.removeAllConsoleStatements"
+		"onCommand:extension.removeAllConsoleStatements",
+		"onCommand:extension.removeAllCoutStatements",
+		"onCommand:extension.removeAllPrintStatements",
+		"onCommand:extension.removeAllConsoleWriteStatements",
+		"onCommand:extension.removeAllSystemOutPrintStatements",
+		"onCommand:extension.removeAllPrintfStatements"
 	],
 	"main": "./client/out/extension",
 	"contributes": {
 		"configuration": {
 			"type": "object",
-			"title": "Console Log Linter",
+			"title": "Console and Print Statement Linter",
 			"properties": {
-				"consoleLogLinter.maxNumberOfProblems": {
+				"consoleAndPrintStatementLinter.maxNumberOfProblems": {
 					"scope": "resource",
 					"type": "number",
 					"default": 100,
 					"description": "Controls the maximum number of problems produced by the server."
 				},
-				"consoleLogLinter.regexToMatch": {
+				"consoleAndPrintStatementLinter.regexToMatchJS": {
 					"scope": "resource",
 					"type": "string",
 					"default": "\\bconsole\\.(log|warn|error|debug)\\b",
-					"description": "The regex to match. Completely configurable - as long as it's a valid JS regex, it'll work"
+					"description": "The regex to match for JS/TS/React files. Completely configurable"
 				},
-				"consoleLogLinter.trace.server": {
+				"consoleAndPrintStatementLinter.trace.server": {
 					"scope": "window",
 					"type": "string",
 					"enum": [
@@ -65,17 +76,83 @@
 					"default": "off",
 					"description": "Traces the communication between VS Code and the language server."
 				},
-				"consoleLogLinter.problemSeverity": {
+				"consoleAndPrintStatementLinter.problemSeverity": {
 					"scope": "resource",
 					"type": "string",
 					"enum": [
 						"Error",
 						"Warning",
 						"Information",
-						"Hint"						
+						"Hint"
 					],
 					"default": "Information",
 					"description": "Set severity of the problems displayed"
+				},
+				"consoleAndPrintStatementLinter.JavaScriptMatchingEnabled": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Turn Javascript/Typescript pattern matching on or off"
+				},
+				"consoleAndPrintStatementLinter.regexToMatchCpp": {
+					"scope": "resource",
+					"type": "string",
+					"default": "(cout|Console::Write)",
+					"description": "The regex to match for C++ files. Completely configurable"
+				},
+				"consoleAndPrintStatementLinter.CppMatchingEnabled": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Turn C++ pattern matching on or off"
+				},
+				"consoleAndPrintStatementLinter.regexToMatchC": {
+					"scope": "resource",
+					"type": "string",
+					"default": "printf\\(",
+					"description": "The regex to match for C files. Completely configurable"
+				},
+				"consoleAndPrintStatementLinter.CMatchingEnabled": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Turn C pattern matching on or off"
+				},
+				"consoleAndPrintStatementLinter.regexToMatchPython": {
+					"scope": "resource",
+					"type": "string",
+					"default": "print\\(",
+					"description": "The regex to match for Python files. Completely configurable"
+				},
+				"consoleAndPrintStatementLinter.pythonMatchingEnabled": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Turn Python pattern matching on or off"
+				},
+				"consoleAndPrintStatementLinter.regexToMatchCsharp": {
+					"scope": "resource",
+					"type": "string",
+					"default": "(Console\\.Write\\(|Console\\.WriteLine\\()",
+					"description": "The regex to match for C# files. Completely configurable"
+				},
+				"consoleAndPrintStatementLinter.csharpMatchingEnabled": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Turn C# pattern matching on or off"
+				},
+				"consoleAndPrintStatementLinter.regexToMatchJava": {
+					"scope": "resource",
+					"type": "string",
+					"default": "System\\.out\\.print\\(",
+					"description": "The regex to match for Java files. Completely configurable"
+				},
+				"consoleAndPrintStatementLinter.javaMatchingEnabled": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Turn Java pattern matching on or off"
 				}
 			}
 		},
@@ -99,7 +176,28 @@
 			{
 				"command": "extension.removeAllConsoleStatements",
 				"title": "Remove all console.* statements"
+			},
+			{
+				"command": "extension.removeAllCoutStatements",
+				"title": "Remove cout and Console::Write statements"
+			},
+			{
+				"command": "extension.removeAllPrintfStatements",
+				"title": "Remove printf statements"
+			},
+			{
+				"command": "extension.removeAllPrintStatements",
+				"title": "Remove print() statements"
+			},
+			{
+				"command": "extension.removeAllConsoleWriteStatements",
+				"title": "Remove all Console.Write/Console.WriteLine statements"
+			},
+			{
+				"command": "extension.removeAllSystemOutPrintStatements",
+				"title": "Remove all System.out.print or System.out.println statements"
 			}
+
 		]
 	},
 	"scripts": {
