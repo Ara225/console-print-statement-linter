@@ -85,7 +85,7 @@
 				"consoleLogLinter.JavaScriptMatchingEnabled": {
 					"scope": "resource",
 					"type": "boolean",
-					"default": "true",
+					"default": true,
 					"description": "Turn Javascript/Typescript pattern matching on or off"
 				},
 				"consoleLogLinter.regexToMatchCAndCPP": {
@@ -97,7 +97,7 @@
 				"consoleLogLinter.CAndCppMatchingEnabled": {
 					"scope": "resource",
 					"type": "boolean",
-					"default": "true",
+					"default": true,
 					"description": "Turn C and C++ pattern matching on or off"
 				},
 				"consoleLogLinter.regexToMatchPython": {
@@ -109,7 +109,7 @@
 				"consoleLogLinter.pythonMatchingEnabled": {
 					"scope": "resource",
 					"type": "boolean",
-					"default": "true",
+					"default": true,
 					"description": "Turn Python pattern matching on or off"
 				},
 				"consoleLogLinter.regexToMatchCsharp": {
@@ -121,7 +121,7 @@
 				"consoleLogLinter.csharpMatchingEnabled": {
 					"scope": "resource",
 					"type": "boolean",
-					"default": "true",
+					"default": true,
 					"description": "Turn C# pattern matching on or off"
 				},
 				"consoleLogLinter.regexToMatchJava": {
@@ -133,7 +133,7 @@
 				"consoleLogLinter.javaMatchingEnabled": {
 					"scope": "resource",
 					"type": "boolean",
-					"default": "true",
+					"default": true,
 					"description": "Turn Java pattern matching on or off"
 				}
 			}

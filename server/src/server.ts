@@ -144,9 +144,12 @@ documents.onDidChangeContent(change => {
 	validateTextDocument(change.document);
 });
 
-async function validateTextDocument(textDocument: TextDocument): Promise<void> {
-	let settings = await getDocumentSettings(textDocument.uri);
-	// Somewhat lazy way of setting the DiagnosticSeverity based on the settings, can't come up with anything better
+/**
+ * Set the severity of the problems/diagnostics we report
+ * @param textDocument 
+ * @param settings 
+ */
+function setProblemSeverity(textDocument: TextDocument, settings: ExtensionSettings) {
 	let problemSeverity:DiagnosticSeverity;
 	if (settings.problemSeverity === 'Hint') {
 		problemSeverity = DiagnosticSeverity.Hint;
@@ -160,12 +163,19 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 	else {
 		problemSeverity = DiagnosticSeverity.Error;
 	}
-	let text = textDocument.getText();
+	return problemSeverity
+}
+
+/**
+ * Set what Regex pattern we need to use based on the document language. e.g. print( for Python
+ * @param textDocument 
+ * @param settings 
+ */
+function setPattern(textDocument: TextDocument, settings: ExtensionSettings) {
 	let pattern;
 	if (['html', 'javascript', 'javascriptreact', 'typescriptreact', 'typescript'].indexOf(textDocument.languageId) >= 0 && settings.JavaScriptMatchingEnabled) {
 		pattern = new RegExp(settings.regexToMatchJS, 'g');
 	}
-	
 	else if (['c', 'cpp'].indexOf(textDocument.languageId) >= 0 && settings.CAndCppMatchingEnabled) {
 		pattern = new RegExp(settings.regexToMatchCAndCPP, 'g');
 	}
@@ -178,12 +188,20 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 	else if ("java" == textDocument.languageId && settings.javaMatchingEnabled) {
 		pattern = new RegExp(settings.regexToMatchJava, 'g');
 	}
-	else {
+	return pattern;
+}
+
+async function validateTextDocument(textDocument: TextDocument): Promise<void> {
+	let settings = await getDocumentSettings(textDocument.uri);
+	let problemSeverity = setProblemSeverity(textDocument, settings)
+	let pattern = setPattern(textDocument, settings)
+	if (!pattern) {
 		return
 	}
 	let searchResults: RegExpExecArray | null;
 	let problems = 0;
 	let diagnostics: Diagnostic[] = [];
+	let text = textDocument.getText();
 	// While there are strings matching the Regex in the document and the number of them is less than settings.maxNumberOfProblems
 	while ((searchResults = pattern.exec(text)) && problems < settings.maxNumberOfProblems) {
 		problems++;
