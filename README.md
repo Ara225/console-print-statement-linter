@@ -3,6 +3,8 @@
 A slick extension that flags console.log, console.debug, console.error and console.warn statements. It also provides commands 
 to easily remove either all console statements or all of each type.
 
+I've also got an more enhanced version of this with support for more languages https://marketplace.visualstudio.com/items?itemName=ara225.console-print-statement-linter
+
 ## Details
 
 Activated on opening of JavaScript, JavaScript React, TypeScript React, and HTML files or on issuing one of the commands
