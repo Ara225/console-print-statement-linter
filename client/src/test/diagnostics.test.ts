@@ -4,33 +4,33 @@ import * as vscode from 'vscode';
 import * as assert from 'assert';
 import { getDocUri, activate } from './helper';
 
-suite('Should get diagnostics', () => {
+suite('Diagnostics checks', () => {
 	const docUri = getDocUri('diagnostics.js');
 
 	test('Check that information message is thrown for all of the four console.* statements', async () => {
 		await testDiagnostics(docUri, [
-			{ message: 'console.log statement found.', range: toRange(0, 0, 0, 11), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' },
-			{ message: 'console.warn statement found.', range: toRange(1, 0, 1, 12), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' },
-			{ message: 'console.error statement found.', range: toRange(2, 0, 2, 13), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' },
-			{ message: 'console.debug statement found.', range: toRange(3, 0, 3, 13), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
+			{ message: 'console.log statement found.', range: toRange(0, 0, 0, 11), severity: vscode.DiagnosticSeverity.Information, source: 'Console and Print Statement Linter' },
+			{ message: 'console.warn statement found.', range: toRange(1, 0, 1, 12), severity: vscode.DiagnosticSeverity.Information, source: 'Console and Print Statement Linter' },
+			{ message: 'console.error statement found.', range: toRange(2, 0, 2, 13), severity: vscode.DiagnosticSeverity.Information, source: 'Console and Print Statement Linter' },
+			{ message: 'console.debug statement found.', range: toRange(3, 0, 3, 13), severity: vscode.DiagnosticSeverity.Information, source: 'Console and Print Statement Linter' }
 		], null);
 	});
 	test('Check delete console.debug statements command works', async () => {
 		await testDiagnostics(docUri, [
-			{ message: 'console.log statement found.', range: toRange(0, 0, 0, 11), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' },
-			{ message: 'console.warn statement found.', range: toRange(1, 0, 1, 12), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' },
-			{ message: 'console.error statement found.', range: toRange(2, 0, 2, 13), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
+			{ message: 'console.log statement found.', range: toRange(0, 0, 0, 11), severity: vscode.DiagnosticSeverity.Information, source: 'Console and Print Statement Linter' },
+			{ message: 'console.warn statement found.', range: toRange(1, 0, 1, 12), severity: vscode.DiagnosticSeverity.Information, source: 'Console and Print Statement Linter' },
+			{ message: 'console.error statement found.', range: toRange(2, 0, 2, 13), severity: vscode.DiagnosticSeverity.Information, source: 'Console and Print Statement Linter' }
 		], 'extension.removeConsoleDebug');
 	});
 	test('Check delete console.error statements command works', async () => {
 		await testDiagnostics(docUri, [
-			{ message: 'console.log statement found.', range: toRange(0, 0, 0, 11), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' },
-			{ message: 'console.warn statement found.', range: toRange(1, 0, 1, 12), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
+			{ message: 'console.log statement found.', range: toRange(0, 0, 0, 11), severity: vscode.DiagnosticSeverity.Information, source: 'Console and Print Statement Linter' },
+			{ message: 'console.warn statement found.', range: toRange(1, 0, 1, 12), severity: vscode.DiagnosticSeverity.Information, source: 'Console and Print Statement Linter' }
 		], 'extension.removeConsoleError');
 	});
 	test('Check delete console.warn statements command works', async () => {
 		await testDiagnostics(docUri, [
-			{ message: 'console.log statement found.', range: toRange(0, 0, 0, 11), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
+			{ message: 'console.log statement found.', range: toRange(0, 0, 0, 11), severity: vscode.DiagnosticSeverity.Information, source: 'Console and Print Statement Linter' }
 		], 'extension.removeConsoleWarn');
 	});
 	test('Check delete console.log statements command works', async () => {
@@ -39,7 +39,7 @@ suite('Should get diagnostics', () => {
 	});
 	test('Check C pattern matching', async () => {
 		await testDiagnostics(getDocUri('diagnostics.c'), [
-			{ message: 'printf statement found.', range: toRange(0, 0, 0, 7), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
+			{ message: 'printf statement found.', range: toRange(0, 0, 0, 7), severity: vscode.DiagnosticSeverity.Information, source: 'Console and Print Statement Linter' }
 		], null);
 	});
 	test('Check delete printf statements command works', async () => {
@@ -48,7 +48,7 @@ suite('Should get diagnostics', () => {
 	});
 	test('Check C++ pattern matching', async () => {
 		await testDiagnostics(getDocUri('diagnostics.cpp'), [
-			{ message: 'Console::Write statement found.', range: toRange(0, 0, 0, 14), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
+			{ message: 'Console::Write statement found.', range: toRange(0, 0, 0, 14), severity: vscode.DiagnosticSeverity.Information, source: 'Console and Print Statement Linter' }
 		], null);
 	});
 	test('Check delete Console::Write statements command works', async () => {
@@ -57,7 +57,7 @@ suite('Should get diagnostics', () => {
 	});
 	test('Check C# pattern matching', async () => {
 		await testDiagnostics(getDocUri('diagnostics.cs'), [
-			{ message: 'Console.Write statement found.', range: toRange(0, 0, 0, 14), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
+			{ message: 'Console.Write statement found.', range: toRange(0, 0, 0, 14), severity: vscode.DiagnosticSeverity.Information, source: 'Console and Print Statement Linter' }
 		], null);
 	});
 	test('Check delete Console.Write statements command works', async () => {
@@ -66,7 +66,7 @@ suite('Should get diagnostics', () => {
 	});
 	test('Check Java pattern matching', async () => {
 		await testDiagnostics(getDocUri('diagnostics.java'), [
-			{ message: 'System.out.print statement found.', range: toRange(0, 0, 0, 17      ), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
+			{ message: 'System.out.print statement found.', range: toRange(0, 0, 0, 17      ), severity: vscode.DiagnosticSeverity.Information, source: 'Console and Print Statement Linter' }
 		], null);
 	});
 	test('Check delete System.out.print statements command works', async () => {
@@ -75,7 +75,7 @@ suite('Should get diagnostics', () => {
 	});
 	test('Check Python pattern matching', async () => {
 		await testDiagnostics(getDocUri('diagnostics.py'), [
-			{ message: 'print statement found.', range: toRange(0, 0, 0, 6), severity: vscode.DiagnosticSeverity.Information, source: 'Console Log Linter' }
+			{ message: 'print statement found.', range: toRange(0, 0, 0, 6), severity: vscode.DiagnosticSeverity.Information, source: 'Console and Print Statement Linter' }
 		], null);
 	});
 	test('Check delete print statements command works', async () => {

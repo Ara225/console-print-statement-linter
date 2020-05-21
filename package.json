@@ -1,10 +1,10 @@
 {
 	"name": "console-log-linter",
-	"displayName": "Console Log Linter and Remover",
-	"description": "A slick extension that flags console.* statements and makes removing them easy",
+	"displayName": "Console and Print Statement Linter",
+	"description": "A slick extension that flags console.* statements in JS/TS and their equivalent statements in other languages.",
 	"author": "Anna Aitchison",
 	"license": "MIT",
-	"version": "1.3.0",
+	"version": "2.0.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Ara225/console-log-linter"
@@ -19,7 +19,8 @@
 		"Other"
 	],
 	"keywords": [
-		"console.log remover"
+		"console.log remover",
+		"print statement remover"
 	],
 	"engines": {
 		"vscode": "^1.43.0"
@@ -50,21 +51,21 @@
 	"contributes": {
 		"configuration": {
 			"type": "object",
-			"title": "Console Log Linter",
+			"title": "Console and Print Statement Linter",
 			"properties": {
-				"consoleLogLinter.maxNumberOfProblems": {
+				"consoleAndPrintStatementLinter.maxNumberOfProblems": {
 					"scope": "resource",
 					"type": "number",
 					"default": 100,
 					"description": "Controls the maximum number of problems produced by the server."
 				},
-				"consoleLogLinter.regexToMatchJS": {
+				"consoleAndPrintStatementLinter.regexToMatchJS": {
 					"scope": "resource",
 					"type": "string",
 					"default": "\\bconsole\\.(log|warn|error|debug)\\b",
 					"description": "The regex to match for JS/TS/React files. Completely configurable"
 				},
-				"consoleLogLinter.trace.server": {
+				"consoleAndPrintStatementLinter.trace.server": {
 					"scope": "window",
 					"type": "string",
 					"enum": [
@@ -75,7 +76,7 @@
 					"default": "off",
 					"description": "Traces the communication between VS Code and the language server."
 				},
-				"consoleLogLinter.problemSeverity": {
+				"consoleAndPrintStatementLinter.problemSeverity": {
 					"scope": "resource",
 					"type": "string",
 					"enum": [
@@ -87,67 +88,67 @@
 					"default": "Information",
 					"description": "Set severity of the problems displayed"
 				},
-				"consoleLogLinter.JavaScriptMatchingEnabled": {
+				"consoleAndPrintStatementLinter.JavaScriptMatchingEnabled": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
 					"description": "Turn Javascript/Typescript pattern matching on or off"
 				},
-				"consoleLogLinter.regexToMatchCpp": {
+				"consoleAndPrintStatementLinter.regexToMatchCpp": {
 					"scope": "resource",
 					"type": "string",
 					"default": "(cout|Console::Write)",
 					"description": "The regex to match for C++ files. Completely configurable"
 				},
-				"consoleLogLinter.CppMatchingEnabled": {
+				"consoleAndPrintStatementLinter.CppMatchingEnabled": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
 					"description": "Turn C++ pattern matching on or off"
 				},
-				"consoleLogLinter.regexToMatchC": {
+				"consoleAndPrintStatementLinter.regexToMatchC": {
 					"scope": "resource",
 					"type": "string",
 					"default": "printf\\(",
 					"description": "The regex to match for C files. Completely configurable"
 				},
-				"consoleLogLinter.CMatchingEnabled": {
+				"consoleAndPrintStatementLinter.CMatchingEnabled": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
 					"description": "Turn C pattern matching on or off"
 				},
-				"consoleLogLinter.regexToMatchPython": {
+				"consoleAndPrintStatementLinter.regexToMatchPython": {
 					"scope": "resource",
 					"type": "string",
 					"default": "print\\(",
 					"description": "The regex to match for Python files. Completely configurable"
 				},
-				"consoleLogLinter.pythonMatchingEnabled": {
+				"consoleAndPrintStatementLinter.pythonMatchingEnabled": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
 					"description": "Turn Python pattern matching on or off"
 				},
-				"consoleLogLinter.regexToMatchCsharp": {
+				"consoleAndPrintStatementLinter.regexToMatchCsharp": {
 					"scope": "resource",
 					"type": "string",
 					"default": "(Console\\.Write\\(|Console\\.WriteLine\\()",
 					"description": "The regex to match for C# files. Completely configurable"
 				},
-				"consoleLogLinter.csharpMatchingEnabled": {
+				"consoleAndPrintStatementLinter.csharpMatchingEnabled": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
 					"description": "Turn C# pattern matching on or off"
 				},
-				"consoleLogLinter.regexToMatchJava": {
+				"consoleAndPrintStatementLinter.regexToMatchJava": {
 					"scope": "resource",
 					"type": "string",
 					"default": "System\\.out\\.print\\(",
 					"description": "The regex to match for Java files. Completely configurable"
 				},
-				"consoleLogLinter.javaMatchingEnabled": {
+				"consoleAndPrintStatementLinter.javaMatchingEnabled": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,

@@ -115,7 +115,7 @@ connection.onDidChangeConfiguration(change => {
 		documentSettings.clear();
 	} else {
 		globalSettings = <ExtensionSettings>(
-			(change.settings.consoleLogLinter || defaultSettings)
+			(change.settings.consoleAndPrintStatementLinter || defaultSettings)
 		);
 	}
 
@@ -131,7 +131,7 @@ function getDocumentSettings(resource: string): Thenable<ExtensionSettings> {
 	if (!result) {
 		result = connection.workspace.getConfiguration({
 			scopeUri: resource,
-			section: 'consoleLogLinter'
+			section: 'consoleAndPrintStatementLinter'
 		});
 		documentSettings.set(resource, result);
 	}
@@ -220,7 +220,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 				end: textDocument.positionAt(searchResults.index + searchResults[0].length)
 			},
 			message: `${searchResults[0].replace('(','')} statement found.`,
-			source: 'Console Log Linter'
+			source: 'Console and Print Statement Linter'
 		};
 		diagnostics.push(diagnostic);
 	}
