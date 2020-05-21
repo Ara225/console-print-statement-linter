@@ -13,7 +13,7 @@ import {
 let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
-	// Add commands to remove console statements
+	// Add commands to remove JS/TS console statements
 	let removeConsoleLog = commands.registerTextEditorCommand('extension.removeConsoleLog', function () {
 		utils.commandsImplementation('console\\.log');
 	});
@@ -27,7 +27,6 @@ export function activate(context: ExtensionContext) {
 		utils.commandsImplementation('console\\.warn');
 	});
 
-	
 	let removeConsoleDebug = commands.registerTextEditorCommand('extension.removeConsoleDebug', function () {
 		utils.commandsImplementation('console\\.debug');
 	});
@@ -36,11 +35,29 @@ export function activate(context: ExtensionContext) {
 		utils.commandsImplementation('\\bconsole\\.(log|warn|error|debug)\\b');
 	});
 
+	// Other Lanuagues 
+	let removeAllCoutStatements = commands.registerTextEditorCommand('extension.removeAllCoutStatements', function () {
+		utils.commandsImplementation('(cout|Console::Write)');
+	});
+	let removeAllPrintStatements = commands.registerTextEditorCommand('extension.removeAllPrintStatements', function () {
+		utils.commandsImplementation('print\\(');
+	});
+	let removeAllConsoleWriteStatements = commands.registerTextEditorCommand('extension.removeAllConsoleWriteStatements', function () {
+		utils.commandsImplementation("(Console\\.Write\\(|Console\\.WriteLine\\()");
+	});
+	let removeAllSystemOutPrintStatements = commands.registerTextEditorCommand('extension.removeAllSystemOutPrintStatements', function () {
+		utils.commandsImplementation("(System\\.out\\.print\\(|System\\.out\\.println\\()");
+	});
+
 	context.subscriptions.push(removeConsoleLog);
 	context.subscriptions.push(removeConsoleError);
 	context.subscriptions.push(removeConsoleWarn);
 	context.subscriptions.push(removeConsoleDebug);
 	context.subscriptions.push(removeAllConsoleStatements);
+	context.subscriptions.push(removeAllCoutStatements);
+	context.subscriptions.push(removeAllPrintStatements);
+	context.subscriptions.push(removeAllConsoleWriteStatements);
+	context.subscriptions.push(removeAllSystemOutPrintStatements);
 
 	// The server is implemented in node
 	let serverModule = context.asAbsolutePath(

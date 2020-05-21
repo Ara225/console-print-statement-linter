@@ -103,7 +103,7 @@
 				"consoleLogLinter.regexToMatchPython": {
 					"scope": "resource",
 					"type": "string",
-					"default": "print",
+					"default": "print\\(",
 					"description": "The regex to match for Python files. Completely configurable"
 				},
 				"consoleLogLinter.pythonMatchingEnabled": {
@@ -115,7 +115,7 @@
 				"consoleLogLinter.regexToMatchCsharp": {
 					"scope": "resource",
 					"type": "string",
-					"default": "Console\\.Write",
+					"default": "(Console\\.Write\\(|Console\\.WriteLine\\()",
 					"description": "The regex to match for C# files. Completely configurable"
 				},
 				"consoleLogLinter.csharpMatchingEnabled": {
@@ -127,7 +127,7 @@
 				"consoleLogLinter.regexToMatchJava": {
 					"scope": "resource",
 					"type": "string",
-					"default": "System\\.out\\.print",
+					"default": "(System\\.out\\.print\\(|System\\.out\\.println\\()",
 					"description": "The regex to match for Java files. Completely configurable"
 				},
 				"consoleLogLinter.javaMatchingEnabled": {
@@ -158,7 +158,24 @@
 			{
 				"command": "extension.removeAllConsoleStatements",
 				"title": "Remove all console.* statements"
+			},
+			{
+				"command": "extension.removeAllCoutStatements",
+				"title": "Remove cout and Console::Write statements"
+			},
+			{
+				"command": "extension.removeAllPrintStatements",
+				"title": "Remove print() statements"
+			},
+			{
+				"command": "extension.removeAllConsoleWriteStatements",
+				"title": "Remove all Console.Write/Console.WriteLine statements"
+			},
+			{
+				"command": "removeAllSystemOutPrintStatements",
+				"title": "Remove all System.out.print or System.out.println statements"
 			}
+
 		]
 	},
 	"scripts": {

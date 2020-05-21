@@ -92,12 +92,12 @@ const defaultSettings: ExtensionSettings = {
 	problemSeverity: 'Information',
 	JavaScriptMatchingEnabled: true,
 	CAndCppMatchingEnabled: true,
-	regexToMatchPython: "print",
+	regexToMatchPython: "print\\(",
 	pythonMatchingEnabled: true,
-	regexToMatchCsharp: "Console\\.Write",
+	regexToMatchCsharp: "(Console\\.Write\\(|Console\\.WriteLine\\()",
 	csharpMatchingEnabled: true,
 	javaMatchingEnabled: true,
-	regexToMatchJava: "System\\.out\\.print"
+	regexToMatchJava: "(System\\.out\\.print\\(|System\\.out\\.println\\()"
 };
 let globalSettings: ExtensionSettings = defaultSettings;
 
