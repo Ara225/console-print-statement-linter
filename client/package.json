@@ -1,10 +1,10 @@
 {
-	"name": "console-log-linter-client",
+	"name": "console-print-statement-linter-client",
 	"displayName": "Console and Print Statement Linter Client",
 	"description": "VSCode part of Console and Print Statement Linter ",
 	"author": "Anna Aitchison",
 	"license": "MIT",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"publisher": "ara225",
 	"repository": {
 		"type": "git",
